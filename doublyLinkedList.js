@@ -106,3 +106,5 @@ test.addToHead(7);
 test.removeTail();
 
 console.log(test);
+//remove node at index?
+//remove node with value?
