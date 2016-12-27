@@ -84,5 +84,3 @@ test.addToHead(6);
 test.addToHead(7);
 
 console.log(test);
-//remove node at index?
-//remove node with value?
