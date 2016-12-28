@@ -23,17 +23,14 @@ var merge = function(array, lo, mid, hi) {
   }
 }
 
-var sort = function(array, lo, hi) {
-  if (lo >= hi) { return; }
-  var mid = Math.floor(lo + (hi - lo) / 2);
-  sort(array, lo, mid);
-  sort(array, mid + 1, hi);
-  merge(array, lo, mid, hi);
-}
+var mergeSortBottomUp = function(array) {
+  for (var i = 1; i < array.length; i = 2 * i ) {
+    for (var j = 0; j < array.length - i; j = j + i * 2) {
+      merge(array, j, j + i - 1, Math.min(j + 2*i -1, array.length - 1))
+    }
+  }
 
-var mergeSortTopDown = function(array) {
-  sort(array, 0, array.length - 1);
   return array;
 }
-
-console.log(mergeSortTopDown(['m','e','r','g','e','s','o','r','t','e','x','a','m','p','l','e']));
+console.log(mergeSortBottomUp([9,8,7,6,5,4,3,2,1,0]));
+console.log(mergeSortBottomUp(['m','e','r','g','e','s','o','r','t','e','x','a','m','p','l','e']));
