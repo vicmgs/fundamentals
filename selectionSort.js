@@ -1,4 +1,4 @@
-selectionSort = function(array) {
+var selectionSort = function(array) {
   for (var i = 0; i < array.length; i++) {
     var minIndex = i;
 

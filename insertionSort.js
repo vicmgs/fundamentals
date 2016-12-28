@@ -1,4 +1,4 @@
-insertionSort = function(array) {
+var insertionSort = function(array) {
   for (var i = 1; i < array.length; i++) {
     for (var j = i; j > 0 && array[j] < array[j-1]; j--) {
       var temp = array[j-1];

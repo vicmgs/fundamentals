@@ -1,4 +1,4 @@
-shellSort = function(array) {
+var shellSort = function(array) {
   var h = 1;
   while (h < array.length / 3) {
     h = 3 * h + 1;
