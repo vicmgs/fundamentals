@@ -1,6 +1,5 @@
 var heapSort = function(array) {
   buildHeapSink(array);
-  console.log(array)
   // buildHeapSwim(array); not as efficient
   sort(array);
   return array;
@@ -34,8 +33,6 @@ var sort = function(array) {
         array[(index + 1) * 2 - 1] = temp;
         index = (index + 1) * 2 - 1;
       }
-
-      console.log(array);
     }
   }
 }
