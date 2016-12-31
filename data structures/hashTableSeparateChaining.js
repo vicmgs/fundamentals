@@ -39,7 +39,7 @@ hashTableSC.prototype.put = function(key, value) {
   this.array[index].addToTail(key, value);
 }
 
-var test = new hashTableSC;
+var test = new hashTableSC();
 test.put('a', 1);
 test.put('b', 2);
 test.put('c', 3);
