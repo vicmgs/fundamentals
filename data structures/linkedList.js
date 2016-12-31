@@ -1,4 +1,5 @@
-var Node = function(value) {
+var Node = function(key, value) {
+  this.key = key;
   this.value = value;
   this.next = null;
 }
@@ -9,30 +10,30 @@ var linkedList = function() {
   this.length = 0;
 }
 
-linkedList.prototype.addToHead = function(value) {
+linkedList.prototype.addToHead = function(key, value) {
   if (this.isEmpty()) {
-    this.head = new Node(value);
+    this.head = new Node(key, value);
     this.tail = this.head;
   } else {
     var oldHead = this.head;
-    this.head = new Node(value);
+    this.head = new Node(key, value);
     this.head.next = oldHead;
   }
   this.length++;
 }
 
-linkedList.prototype.addToTail = function(value) {
+linkedList.prototype.addToTail = function(key, value) {
   if (this.isEmpty()) {
-    this.head = new Node(value);
+    this.head = new Node(key, value);
     this.tail = this.head;
   } else {
-    this.tail.next = new Node(value);
+    this.tail.next = new Node(key, value);
     this.tail = this.tail.next;
   }
   this.length++;
 }
 
-linkedList.prototype.removeHead = function(value) {
+linkedList.prototype.removeHead = function() {
   if (this.isEmpty()) {
     return null;
   } else {
@@ -57,7 +58,7 @@ linkedList.prototype.findNode = function(value) {
   return null;
 }
 
-linkedList.prototype.isEmpty = function(value) {
+linkedList.prototype.isEmpty = function() {
   return this.length == 0;
 }
 
@@ -83,4 +84,6 @@ test.addToTail(5);
 test.addToHead(6);
 test.addToHead(7);
 
-console.log(test);
+// console.log(test);
+
+module.exports = linkedList;
