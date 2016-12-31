@@ -39,7 +39,9 @@ var test = new Bag();
 test.add(1);
 test.add(2);
 test.add(3);
-console.log(test.size())
-console.log(test.isEmpty())
+// console.log(test.size())
+// console.log(test.isEmpty())
+//
+// console.log(test);
 
-console.log(test);
+module.exports = Bag;
