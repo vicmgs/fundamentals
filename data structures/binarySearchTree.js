@@ -26,6 +26,16 @@ binaryST.prototype.find = function(key) {
   }
 }
 
+binaryST.prototype.traverseLoToHi = function(callback) {
+  if (this.left !== null) {
+    this.left.traverseLoToHi(callback);
+  }
+  callback(this.key, this.value);
+  if (this.right !== null) {
+    this.right.traverseLoToHi(callback);
+  }
+}
+
 var test = new binaryST('f', 1);
 test.insert('c', 2);
 test.insert('d', 3);
@@ -34,7 +44,4 @@ test.insert('r', 5);
 test.insert('z', 6);
 test.insert('m', 7);
 console.log(test);
-test.insert('m', 'newkey');
-test.insert('r', 'diffkey');
-test.insert('c', 'unikkey');
-console.log(test);
+test.traverseLoToHi(console.log);
