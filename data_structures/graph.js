@@ -63,8 +63,8 @@ Graph.prototype.depthFirstSearch = function(vertex) {
       if (!marked[vertex]) {
         dfs(vertex);
       }
-    })
-  }
+    });
+  };
   dfs(vertex);
   return marked;
 }
@@ -139,5 +139,7 @@ test.addEdge(0,1);
 test.addEdge(0,2);
 test.addEdge(3,4);
 test.addEdge(3,5);
-console.log(test.pathTo(5,'d'));
-console.log(test.pathTo(5,'b'));
+// console.log(test.pathTo(5,'d'));
+// console.log(test.pathTo(5,'b'));
+
+module.exports = Graph;
