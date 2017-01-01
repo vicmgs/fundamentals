@@ -67,14 +67,14 @@ var isBipartite = function(graph) {
   }
 
   for (var i = 0; i < graph.vertices.length; i++) {
-    if (i === 0) {
-      color[0] = true;
+    if (color[i] === undefined) {
+      color[i] = true;
     }
     if (!marked[i]) {
       dfs(i);
     }
   }
-
+  console.log(color);
   return isBipartite;
 }
 
