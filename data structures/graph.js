@@ -1,4 +1,5 @@
 var Bag = require('./bag.js');
+var Queue = require('./queue.js');
 
 var Graph = function(vertices) {
   this.vertices = [];
@@ -12,6 +13,45 @@ Graph.prototype.addEdge = function(v, w) {
   this.vertices[v].add(w);
   this.vertices[w].add(v);
   this.edges++;
+}
+
+Graph.prototype.breadthFirstSearch = function(vertex) {
+  var marked = new Array(this.vertices.length);
+  var queue = new Queue();
+  marked[vertex] = true;
+  queue.enqueue(vertex);
+
+  while(!queue.isEmpty()) {
+    vertex = queue.dequeue();
+    this.adj(vertex).forEach(function(vertex) {
+      if (!marked[vertex]) {
+        marked[vertex] = true;
+        queue.enqueue(vertex)
+      }
+    });
+  }
+  return marked;
+}
+
+Graph.prototype.breadthFirstPaths = function(vertex) {
+  var marked = new Array(this.vertices.length);
+  var queue = new Queue();
+  var pathTo = new Array(this.vertices.length);
+  pathTo[vertex] = vertex;
+  marked[vertex] = true;
+  queue.enqueue(vertex);
+
+  while(!queue.isEmpty()) {
+    vertex = queue.dequeue();
+    this.adj(vertex).forEach(function(connect) {
+      if (!marked[connect]) {
+        marked[connect] = true;
+        pathTo[connect] = vertex;
+        queue.enqueue(connect)
+      }
+    });
+  }
+  return pathTo;
 }
 
 Graph.prototype.depthFirstSearch = function(vertex) {
@@ -48,8 +88,14 @@ Graph.prototype.depthFirstPaths = function(vertex) {
   return pathTo;
 }
 
-Graph.prototype.pathTo = function(vertex) {
-  var pathTo = this.depthFirstPaths(0);
+Graph.prototype.pathTo = function(vertex, method) {
+  var pathTo;
+  if (method === 'breadth' || method === 'b') {
+    pathTo = this.breadthFirstPaths(0);
+  } else {
+    pathTo = this.depthFirstPaths(0);
+  }
+
   var paths = [];
   var path = ''+vertex;
   for (var i = 0; i < this.vertices.length; i++) {
@@ -93,4 +139,5 @@ test.addEdge(0,1);
 test.addEdge(0,2);
 test.addEdge(3,4);
 test.addEdge(3,5);
-console.log(test.pathTo(3));
+console.log(test.pathTo(5,'d'));
+console.log(test.pathTo(5,'b'));

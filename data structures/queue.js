@@ -54,8 +54,10 @@ var test = new Queue();
 test.enqueue(1);
 test.enqueue(2);
 test.enqueue(3);
-console.log(test.dequeue())
-console.log(test.size())
-console.log(test.isEmpty())
+// console.log(test.dequeue())
+// console.log(test.size())
+// console.log(test.isEmpty())
+//
+// console.log(test);
 
-console.log(test);
+module.exports = Queue;
