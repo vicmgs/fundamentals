@@ -50,8 +50,10 @@ var test = new Stack();
 test.push(1);
 test.push(2);
 test.push(3);
-console.log(test.pop())
-console.log(test.size())
-console.log(test.isEmpty())
+// console.log(test.pop())
+// console.log(test.size())
+// console.log(test.isEmpty())
+//
+// console.log(test);
 
-console.log(test);
+module.exports = Stack;
