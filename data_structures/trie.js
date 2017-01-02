@@ -61,6 +61,21 @@ Trie.prototype.keysThatMatch = function(pat) {
   return q;
 }
 
+Trie.prototype.longestPrefixOf = function(key) {
+  var search = function(node, pre, key, id) {
+    if (!node) { return; }
+    if (node.value !== null ) { lastKey = pre; }
+    for (var c = 0; c < index.length; c++) {
+      if (revIndex[c] === key[id]) {
+        search(node.next[c], pre + revIndex[c],key, id+1);
+      }
+    }
+  }
+  var lastKey = null;
+  search(this.root, '', key, 0);
+  return lastKey;
+}
+
 var test = new Trie();
 test.put('shell',1);
 test.put('shill',1.5);
@@ -71,3 +86,5 @@ test.put('are',3);
 test.put('by',3);
 console.log(test.keysWithPrefix('shell'));
 console.log(test.keysThatMatch('...ll'));
+console.log(test.longestPrefixOf('byst'));
+console.log(test.longestPrefixOf('areyouready'));
