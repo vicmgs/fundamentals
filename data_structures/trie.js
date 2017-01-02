@@ -5,11 +5,15 @@ var revIndex = 'abcdefghijklmnopqrstuvwxyz'.split('');
 
 var Trie = function() {
   this.root = new Node();
+  this.size = 0;
 }
 
 var Node = function() {
   this.value = null;
   this.next = new Array(26);
+  for (var i = 0; i < this.next.length; i++) {
+    this.next[i] = null;
+  }
 }
 
 Trie.prototype.get = function(key) {
@@ -30,6 +34,7 @@ Trie.prototype.put = function(key, value) {
     node.next[link] = put(node.next[link], key, value, id+1);
     return node;
   }
+  this.size++;
   return put(this.root, key, value, 0);
 }
 
@@ -76,15 +81,37 @@ Trie.prototype.longestPrefixOf = function(key) {
   return lastKey;
 }
 
+Trie.prototype.remove = function(key) {
+  var rm = function(node, key, id) {
+    if (!node) { return null; }
+    if (id === key.length ) { node.value = null; }
+    else {
+      node.next[index[key[id]]] = rm(node.next[index[key[id]]], key, id+1);
+    }
+
+    if (node.value !== null) return node;
+
+    for (var c = 0; c < revIndex.length; c++) {
+      if (node.next[c]) return node;
+    }
+    return null;
+  }
+  return rm(this.root, key, 0);
+}
+
 var test = new Trie();
 test.put('shell',1);
 test.put('shill',1.5);
 test.put('shall',1.7);
 test.put('shells',2);
 test.put('shellsort',3);
-test.put('are',3);
-test.put('by',3);
-console.log(test.keysWithPrefix('shell'));
+test.put('are',4);
+test.put('by',7);
+test.put('fire',9);
+console.log(test.keysWithPrefix('she'));
 console.log(test.keysThatMatch('...ll'));
 console.log(test.longestPrefixOf('byst'));
 console.log(test.longestPrefixOf('areyouready'));
+console.log(test.size);
+test.remove('shell');
+console.log(test.keysWithPrefix('she'));
