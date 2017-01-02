@@ -46,9 +46,28 @@ Trie.prototype.keysWithPrefix = function(pre) {
   return q;
 }
 
+Trie.prototype.keysThatMatch = function(pat) {
+  var collect = function(node, pre, pat, q, id) {
+    if (!node) { return; }
+    if (node.value !== null && id === pat.length) { q.enqueue(pre); }
+    for (var c = 0; c < index.length; c++) {
+      if (revIndex[c] === pat[id] || pat[id] === '.') {
+        collect(node.next[c], pre + revIndex[c], pat, q, id+1);
+      }
+    }
+  }
+  var q = new Queue();
+  collect(this.root, '', pat, q, 0);
+  return q;
+}
+
 var test = new Trie();
 test.put('shell',1);
+test.put('shill',1.5);
+test.put('shall',1.7);
 test.put('shells',2);
 test.put('shellsort',3);
 test.put('are',3);
-console.log(test.keysWithPrefix('').first);
+test.put('by',3);
+console.log(test.keysWithPrefix('shell'));
+console.log(test.keysThatMatch('...ll'));
