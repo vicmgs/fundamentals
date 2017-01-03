@@ -136,7 +136,31 @@ TenaryST.prototype.longestPrefixOf = function(key) {
 }
 
 TenaryST.prototype.remove = function(key) {
-
+  var rm = function(node, key, d) {
+    if (!node) {
+      return null;
+    }
+    if (key[d] < node.char) {
+      node.left = rm(node.left, key, d);
+    } else if (key[d] > node.char) {
+      node.right = rm(node.right, key, d);
+    } else {
+      if (d === key.length-1) {
+        node.value = null;
+      } else {
+        node.mid = rm(node.mid, key, d+1);
+      }
+      if (!node.left && !node.right && !node.mid) {
+        return null;
+      } else if (node.left && !node.mid) {
+        return node.left;
+      } else if (node.right && !node.mid) {
+        return node.right;
+      }
+    }
+    return node;
+  }
+  this.root = rm(this.root, key, 0);
 }
 
 var test = new TenaryST();
@@ -151,4 +175,4 @@ console.log(test.longestPrefixOf('shelly'));
 console.log(test.keysWithPrefix('sh'));
 console.log(test.keysThatMatch('.....'));
 console.log(test.keysThatMatch('sh.ll'));
-console.log(test.root.left);
+console.log(test.root);
