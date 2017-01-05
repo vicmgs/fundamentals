@@ -88,4 +88,6 @@ test.addEdge(9,10);
 test.addEdge(9,11);
 test.addEdge(9,12);
 test.addEdge(11,12);
-console.log(depthFirstOrder(test));
+// console.log(depthFirstOrder(test));
+
+module.exports = depthFirstOrder;
