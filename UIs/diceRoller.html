@@ -1,0 +1,18 @@
+<body>
+  <div class='die' style='border: 1px solid black; width: 35px; height: 35px; text-align:center; font-size: 2em;'></div>
+  <div class='die' style='border: 1px solid black; width: 35px; height: 35px; text-align:center; font-size: 2em;'></div>
+  <br>
+  <div id='roll' style='border: 1px solid black; width: 35px; text-align:center; cursor: hand;'>Roll</div>
+
+  <script>
+    var roll = function() {
+      for (var i = 0; i < document.getElementsByClassName('die').length; i++) {
+        document.getElementsByClassName('die')[i].innerText = Math.floor(Math.random() * 6) + 1;
+      }
+    }
+    document.getElementById('roll').addEventListener('click', function() {
+      roll();
+    })
+    roll();
+  </script>
+</body>
