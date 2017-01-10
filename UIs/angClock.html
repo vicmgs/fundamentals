@@ -5,8 +5,10 @@
 </head>
 
 <body>
-  <div class='app' ng-app='clock' ng-controller='clockController' ng-cloak>
-    <div class='time'>{{ time }}</div>
+  <div class='app' ng-app='clock' ng-cloak>
+    <div ng-controller='clockController' class='time'>{{ time }}</div>
+    <div ng-controller='clockController2' class='time'>{{ date }}</div>
+    <div hello-world example='{{example}}'></div>
   </div>
   <script src='angClock.js'></script>
 </body>
