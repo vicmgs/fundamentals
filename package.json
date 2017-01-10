@@ -1,0 +1,19 @@
+{
+  "name": "fundamentals",
+  "version": "1.0.0",
+  "description": "data structures + algorithms practice",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha ./tests/testRun.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vicmgs/fundamentals/issues"
+  },
+  "homepage": "https://github.com/vicmgs/fundamentals#readme",
+  "dependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0"
+  }
+}

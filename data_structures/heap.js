@@ -57,4 +57,5 @@ numbers.forEach(function(num) {
   test.add(num);
 });
 test.rmRoot();
-console.log(test);
+
+module.exports = Heap;
