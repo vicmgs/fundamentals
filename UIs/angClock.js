@@ -2,7 +2,7 @@
 
 angular.module('clock', [])
 .run(function($rootScope) {
-  $rootScope.example = 'just a test';
+  $rootScope.example = "Who's there?";
 })
 .controller('clockController', function($scope, $interval) {
   var timeNow = function() {
@@ -37,7 +37,7 @@ angular.module('clock', [])
     link: function(scope, elem, attrs) {
       elem.bind('click', function() {
         scope.$apply(function() {
-          scope.example = "white";
+          scope.example = "...";
         });
       });
       elem.bind('mouseover', function() {
