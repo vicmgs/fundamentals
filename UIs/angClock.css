@@ -1,0 +1,13 @@
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.time {
+  height: 50px;
+  width: 240px;
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 3em;
+  text-align: center;
+}
