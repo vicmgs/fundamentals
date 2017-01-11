@@ -10,6 +10,23 @@ var linkedList = function() {
   this.length = 0;
 }
 
+linkedList.prototype.delete = function(node, prev) {
+
+  if (this.head === this.tail && this.tail === node) {
+    this.head = this.tail = null;
+  } else if (this.head === node) {
+    this.head = node.next;
+    node.next = null;
+  } else if (this.tail === node) {
+    this.tail = prev;
+    this.tail.next = null;
+  } else {
+    prev.next = node.next;
+    node.next = null;
+  }
+  this.length--;
+}
+
 linkedList.prototype.addToHead = function(key, value) {
   if (this.isEmpty()) {
     this.head = new Node(key, value);
