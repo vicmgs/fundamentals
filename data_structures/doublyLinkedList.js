@@ -1,58 +1,50 @@
-var Node = function(value) {
-  this.value = value;
+var Node = function(freq) {
+  this.freq = freq;
+  this.head = null;
   this.next = null;
   this.previous = null;
 }
 
 var doublyLinkedList = function() {
   this.head = null;
-  this.tail = null;
-  this.length = 0;
 }
 
 doublyLinkedList.prototype.addToHead = function(value) {
-  if (this.isEmpty()) {
+  if (!this.head) {
     this.head = new Node(value);
-    this.tail = this.head;
   } else {
     var oldHead = this.head;
     this.head = new Node(value);
     this.head.next = oldHead;
     oldHead.previous = this.head;
   }
-  this.length++;
-  return this.head;
 }
 
-doublyLinkedList.prototype.moveToHead = function(node) {
-  if (this.tail.value === node) {
-    node.previous.next = null;
-    this.tail = node.previous;
-    node.previous = null;
-    node.next = this.head;
-    this.head.previous = node;
-    this.head = node;
-  } else if (node !== this.head.value) {
+doublyLinkedList.prototype.addAfter = function(node, freq) {
+  var temp = new Node(freq);
+  if (node.next) {
+    node.next.previous = temp;
+    temp.next = node.next;
+    node.next = temp;
+    temp.previous = node;
+  } else {
+    node.next = temp;
+    temp.previous = node;
+  }
+}
+
+doublyLinkedList.prototype.removeCurr = function(node) {
+  if (this.head === node && !node.next) {
+    this.head = null;
+  } else if (this.head === node) {
+    this.head = node.next;
+    this.head.previous = null;
+  } else if (node.next) {
     node.next.previous = node.previous;
     node.previous.next = node.next;
-    node.previous = null;
-    node.next = this.head;
-    this.head.previous = node;
-    this.head = node;
-  }
-}
-
-doublyLinkedList.prototype.addToTail = function(value) {
-  if (this.isEmpty()) {
-    this.head = new Node(value);
-    this.tail = this.head;
   } else {
-    this.tail.next = new Node(value);
-    this.tail.next.previous = this.tail;
-    this.tail = this.tail.next;
+    node.previous.next = null;
   }
-  this.length++;
-  return this.tail;
 }
 
 // doublyLinkedList.prototype.removeHead = function() {
@@ -114,7 +106,6 @@ doublyLinkedList.prototype.size = function() {
 //   }
 // }
 
-var test = new doublyLinkedList();
 
 
 module.exports = doublyLinkedList;

@@ -66,12 +66,12 @@ var Node = function(key, value) {
   this.value = value;
   this.prev = null;
   this.after = null;
-  this.freq = null;
 }
 
 var LFU = function(max) {
   this.map = new HashTable(max);
-  this.freqs;
+  this.head = null;
+  this.tail = null;
   this.max = max;
 }
 
@@ -80,25 +80,67 @@ LFU.prototype.set = function(key, value) {
   var find = this.map.get(key);
   if (find) {
     find.value = value;
-
+    if (find === this.tail && find !== this.head) {
+      find.prev.after = null;
+      this.tail = find.prev;
+      find.prev = null;
+      find.after = this.head;
+      this.head.prev = find;
+      this.head = find;
+    } else if (find !== this.head) {
+      find.prev.after = find.after;
+      find.after.prev = find.prev;
+      find.prev = null;
+      find.after = this.head;
+      this.head.prev = find;
+      this.head = find;
+    }
   } else {
     this.map.put(key, node);
+    if (this.head) {
+      node.after = this.head;
+      this.head.prev = node;
+      this.head = node;
+    } else {
+      this.head = node;
+      this.tail = node;
+    }
 
+    if (this.map.length > this.max) {
+      this.map.delete(this.tail.key);
+      this.tail.prev.after = null;
+      this.tail = this.tail.prev;
+    }
   }
 }
 
-// LFU.prototype.get = function(key) {
-//   var find = this.map.get(key);
-//   if (find) {
-//
-//   } else {
-//     return find;
-//   }
-// }
+LFU.prototype.get = function(key) {
+  var find = this.map.get(key);
+  if (find) {
+    if (find === this.tail && find !== this.head) {
+      find.prev.after = null;
+      this.tail = find.prev;
+      find.prev = null;
+      find.after = this.head;
+      this.head.prev = find;
+      this.head = find;
+    } else if (find !== this.head) {
+      find.prev.after = find.after;
+      find.after.prev = find.prev;
+      find.prev = null;
+      find.after = this.head;
+      this.head.prev = find;
+      this.head = find;
+    }
+    return find.value
+  } else {
+    return find;
+  }
+}
 
 var test = new LFU(3);
-test.set('a',1);
-test.set('b',2);
-test.set('c',3);
-test.set('a',4);
-console.log(test);
+// test.set('b',2);
+test.set('d',8);
+test.set('c',4);
+test.set('f',2);
+test.set('i',8);
