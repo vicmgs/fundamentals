@@ -1,17 +1,20 @@
 var Node = function(freq) {
   this.freq = freq;
   this.head = null;
+  this.tail = null;
   this.next = null;
   this.previous = null;
 }
 
 var doublyLinkedList = function() {
   this.head = null;
+
 }
 
 doublyLinkedList.prototype.addToHead = function(value) {
   if (!this.head) {
     this.head = new Node(value);
+
   } else {
     var oldHead = this.head;
     this.head = new Node(value);
@@ -30,12 +33,15 @@ doublyLinkedList.prototype.addAfter = function(node, freq) {
   } else {
     node.next = temp;
     temp.previous = node;
+
   }
+  return temp;
 }
 
 doublyLinkedList.prototype.removeCurr = function(node) {
   if (this.head === node && !node.next) {
     this.head = null;
+
   } else if (this.head === node) {
     this.head = node.next;
     this.head.previous = null;
@@ -44,6 +50,7 @@ doublyLinkedList.prototype.removeCurr = function(node) {
     node.previous.next = node.next;
   } else {
     node.previous.next = null;
+
   }
 }
 

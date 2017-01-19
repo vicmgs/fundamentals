@@ -71,7 +71,7 @@ var Node = function(key, value) {
 
 var LFU = function(max) {
   this.map = new HashTable(max);
-  this.freqs;
+  this.freqs = new doublyLinkedList();
   this.max = max;
 }
 
@@ -81,9 +81,81 @@ LFU.prototype.set = function(key, value) {
   if (find) {
     find.value = value;
 
+    var count = find.freq.freq + 1;
+    if (!find.freq.next || find.freq.next.freq !== count) {
+      var newFreq = doublyLinkedList.prototype.addAfter(find.freq, count);
+
+      if (!find.prev && !find.after) {
+        find.freq.head = find.freq.tail = null;
+        newFreq.head = newFreq.tail = find;
+      } else if (!find.prev && find.after) {
+        find.freq.head = find.after;
+        find.after.prev = null;
+        newFreq.head = newFreq.tail = find;
+        find.after = null;
+        find.freq = newFreq;
+      } else if (find.prev && !find.after) {
+        find.freq.tail = find.prev;
+        find.prev.after = null;
+        find.prev = null;
+        newFreq.head = newFreq.tail = find;
+        find.freq = newFreq;
+      } else if (find.prev && find.after) {
+        find.prev.after = find.after;
+        find.after.prev = find.prev;
+        find.prev = find.after = null;
+        newFreq.head = newFreq.tail = find;
+        find.freq = newFreq;
+      }
+    } else {
+      newFreq = find.freq.next;
+
+      if (!find.prev && !find.after) {
+        find.freq.head = find.freq.tail = null;
+        newFreq.tail.after = find;
+        find.prev = newFreq.tail;
+        find.freq = newFreq;
+        newFreq.tail = find;
+      } else if (!find.prev && find.after) {
+        find.freq.head = find.after;
+        find.after.prev = null;
+        find.after = null;
+        newFreq.tail.after = find;
+        find.prev = newFreq.tail;
+        find.freq = newFreq;
+        newFreq.tail = find;
+      } else if (find.prev && !find.after) {
+        find.freq.tail = find.prev;
+        find.prev.after = null;
+        find.prev = null;
+        newFreq.tail.after = find;
+        find.prev = newFreq.tail;
+        find.freq = newFreq;
+        newFreq.tail = find;
+      } else if (find.prev && find.after) {
+        find.prev.after = find.after;
+        find.after.prev = find.prev;
+        find.prev = find.after = null;
+        newFreq.tail.after = find;
+        find.prev = newFreq.tail;
+        find.freq = newFreq;
+        newFreq.tail = find;
+      }
+    }
   } else {
     this.map.put(key, node);
 
+    if (!this.freqs.head || this.freqs.head.freq !== 1) {
+      this.freqs.addToHead(1);
+      node.freq = this.freqs.head;
+      this.freqs.head.head = node;
+      this.freqs.head.tail = node;
+    } else {
+      this.freqs.head.tail.after = node;
+      node.prev = this.freqs.head.tail;
+      this.freqs.head.tail = node;
+      node.freq = this.freqs.head;
+    }
   }
 }
 
@@ -100,5 +172,12 @@ var test = new LFU(3);
 test.set('a',1);
 test.set('b',2);
 test.set('c',3);
-test.set('a',4);
-console.log(test);
+test.set('d',5);
+test.set('b',3);
+test.set('c',10);
+// console.log(test.freqs.head)
+// console.log(test.freqs.head)
+// test.set('a',4);
+// console.log(test.freqs.head.next);
+// console.log('..........');
+// console.log(test.map.array);
